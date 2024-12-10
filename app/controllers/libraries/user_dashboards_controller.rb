@@ -1,7 +1,6 @@
 class Libraries::UserDashboardsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_library
-  layout "dashboard"
 
   def show
     authorize @library, :user_dashboard?

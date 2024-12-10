@@ -92,3 +92,4 @@ gem "pundit"
 gem 'faker'
 
 gem 'cocoon'
+

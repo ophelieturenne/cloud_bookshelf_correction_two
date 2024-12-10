@@ -13,6 +13,9 @@
 @import "pages/home";
 @import "components/registration_signin_out";
 @import "pages/form_acess";
+@import "components/header";
+@import "components/sidebar";
+@import 'components/breakpoints';
 @import "pages/book_index";
 @import "pages/book_show";
 @import "pages/add-book-form";
@@ -29,40 +32,25 @@ html, body {
 
 }
 
-.wrapper {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+.layout {
+  display: flex;
+  flex-direction: row;
+  height: 100vh; /* Full viewport height */
+  overflow: hidden; /* Prevent scrolling if not needed */
 }
 
-.content {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-}
-
-.dashboard-layout {
-    flex: 1;
-    display: grid;
-    grid-template-columns: repeat(14, 1fr); /* Assuming a 12-column grid, adjust as needed */
-    height: 100%;
-    background-color: $blue;
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-  }
-
-.container_dashboard {
-    margin: var(--header-height) 0 0 0;
-  }
-
-.content-area-layout {
-    grid-column: span 12;
-    background-color: white;
-    border-radius: 5px;
-    margin: 0;
-  }
-
-
+/* Sidebar styling */
 .sidebar-layout {
-    grid-column: span 2;
-    background-color: $blue;
-  }
+  flex: 0 0 250px; /* Fixed width for the sidebar */
+  background-color: #f4f4f4; /* Example background */
+  border-right: 1px solid #ddd; /* Optional border for separation */
+  height: 100%;
+  overflow-y: auto; /* Scrollable sidebar if content overflows */
+}
+
+/* Content area styling */
+.content-layout {
+  flex: 1; /* Takes the remaining space */
+  padding: 20px; /* Add some padding for better readability */
+  overflow-y: auto; /* Scrollable content if needed */
+}

@@ -1,6 +1,5 @@
 class Libraries::AdminDashboardsController < ApplicationController
   before_action :set_library
-  layout "dashboard"
 
   def show
     authorize @library, :admin_dashboard?

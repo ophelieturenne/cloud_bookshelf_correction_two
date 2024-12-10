@@ -7,13 +7,21 @@
     <div class="book-grid">
       <% @books.each do |book| %>
         <div class="book-card">
-          <% if book.photo.attached? %>
-            <!-- Book with Photo -->
-            <div class="book-image" style="background-image: url(<%= url_for(book.photo) %>); background-size: cover; background-position: center; width: 200px; height: 300px;"></div>
-          <% else %>
-            <!-- Placeholder for Missing Photo -->
-            <div class="book-placeholder">
-              <p><%= book.title %></p>
+          <!-- Front Side -->
+          <div class="card-side card-front">
+            <!-- Book Image -->
+
+
+            <div class="book-image">
+            <% if book.photo.attached? %>
+              <%= image_tag book.photo, alt: "Book Cover", class: "book-cover" %>
+            <% else %>
+              <%= image_tag @image_urls.sample, alt: "Random Book Cover", class: "book-cover" %>
+            <% end %>
+             </div>
+            <!-- Book Title -->
+            <div class="book-title">
+              <%= book.title %>
             </div>
           <% end %>
 

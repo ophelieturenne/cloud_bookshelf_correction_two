@@ -4,6 +4,7 @@ class Book < ApplicationRecord
   has_many :checkouts, dependent: :destroy
   has_many :wishlists, dependent: :destroy
   has_many :reviews, dependent: :destroy
+  has_one_attached :photo
 
   # Attachments
   has_one_attached :photo

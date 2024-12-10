@@ -1,22 +1,57 @@
+<div class="container my-5">
+  <div class="card shadow-lg">
+    <div class="card-body text-center">
+      <h1 class="display-5">Explore your Library: <%= @library.name %></h1>
+      <p class="lead">Unique ID: <%= @library.unique_id %></p>
+      <p>Created by: <%= @library.user.email %></p>
+    </div>
+  </div>
 
-<h1>Explore your Library: <%= @library.name %></h1>
-<p>Unique ID: <%= @library.unique_id %></p>
-<p>Created by: <%= @library.user.email %></p>
+  <div class="my-2">
+    <% if policy(@library).admin_dashboard? %>
+      <%= link_to "Admin Dashboard", admin_dashboard_library_path(@library), class: "btn btn-primary" %>
+    <% end %>
+    <% if policy(@library).user_dashboard? %>
+      <%= link_to "User Dashboard", user_dashboard_library_path(@library), class: "btn btn-secondary" %>
+    <% end %>
+  </div>
 
-<%# Dashboards Links Section %>
-<div class="my-3">
-  <% if policy(@library).admin_dashboard? %>
-    <%= link_to "Admin Dashboard", admin_dashboard_library_path(@library), class: "btn btn-primary" %>
+  <h2 class="my-4 text-center">Book List</h2>
+
+  <% if @library.books.any? %>
+    <div class="row row-cols-1 row-cols-md-5 ">
+      <% @library.books.each do |book| %>
+        <div class="col">
+          <div class="card shadow-sm">
+            <%# Book img%>
+            <%= link_to library_book_path(@library, book) do %>
+               <img src="https://plus.unsplash.com/premium_photo-1669652639337-c513cc42ead6?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8Ym9va3N8ZW58MHx8MHx8fDA%3D" class="img-fluid" alt="<%= book.title %>">
+            <% end %>
+
+            <%# details of books %>
+            <div class="card-body text-center">
+              <h5 class="card-title"><%= book.title %></h5>
+              <p class="card-text"><strong>Author:</strong> <%= book.author %></p>
+              <p class="card-text"><strong>Year:</strong> <%= book.year %></p>
+              <%# <%= link_to 'View Details', library_book_path(@library, book), class: 'btn btn-primary btn-sm' %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="text-center">No books currently available in this library.</p>
   <% end %>
-  <% if policy(@library).user_dashboard? %>
-    <%= link_to "User Dashboard", user_dashboard_library_path(@library), class: "btn btn-secondary" %>
-  <% end %>
+
+  <div class="text-center my-4">
+    <%= link_to "Back to Libraries", libraries_path, class: 'btn btn-secondary' %>
+  </div>
 </div>
 
-<%# Books Table Section %>
-<h2>Books</h2>
-<% if @library.books.any? %>
-  <table class="table table-bordered">
+
+<%#
+  <%#
+  <%# <table class="table table-bordered">
     <thead>
       <tr>
         <th>Title</th>
@@ -24,20 +59,18 @@
         <th>Actions</th>
       </tr>
     </thead>
-    <tbody>
-      <% @library.books.each do |book| %>
-        <tr>
-          <td><%= book.title %></td>
-          <td><%= book.author %></td>
-          <td>
+    <tbody> %>
+      <%# <% @library.books.each do |book| %>
+        <%# <tr>
+          <%# <td><%= book.title %></td>
+          <%# <td><%= book.author %></td>
+          <%# <td>
             <%= link_to 'View', library_book_path(@library, book), class: 'btn btn-primary btn-sm' %>
-          </td>
+          <%# </td>
         </tr>
       <% end %>
-    </tbody>
+    <%# </tbody>
   </table>
 <% else %>
-  <p>No books are currently available in this library.</p>
-<% end %>
-
-<%= link_to "Back to Libraries", libraries_path, class: 'btn btn-secondary' %>
+  <%# <p>No books are currently available in this library.</p> %>
+<%# <% end %>

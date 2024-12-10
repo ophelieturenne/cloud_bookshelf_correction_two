@@ -1,41 +1,119 @@
-.library-show {
-  margin-top: 25px;
+.container {
+  padding: 2rem;
+  margin: auto;
+  max-width: 1200px;
+}
+
+.card{
+  border-radius: 5px;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+h1.display-5 {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #343a40;
+}
+
+h2 {
+  font-size: 2rem;
+  font-weight: 500;
+  color: #343a40;
+}
+
+.lead {
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: #6c757d;
+}
+
+.card-body {
+  padding: 20px;
+  background-color: #fff;
   text-align: center;
 }
 
-.container-library-show {
-  align-items: center;
-  display: flex;
-  justify-content: space-around;
-
-  display: flex;
-  flex-direction: row;
-  //gap: 5px; // Adds spacing between buttons
-  padding: 20px;
-
-  a {
-    display: block;
-    justify-content: space-between;
-    text-align: center;
-    text-decoration: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    font-weight: bold;
-    color: #ffffff; // Text color
-    background-color: #007bff; // Primary blue button color
-    border-radius: 5px;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-
-    &:hover {
-      background-color: #0056b3;
-      transform: translateY(-2px);
-    }
-
-    &:active {
-      background-color: #003f7f; // Even darker blue on active
-      transform: translateY(1px); // Slight pressed effect
-    }
-  }
-
-
+.card-body h5 {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #343a40;
 }
+
+.card-body .card-text {
+  font-size: 1rem;
+  color: #6c757d;
+}
+
+.btn {
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 10px;
+  text-decoration: none;
+}
+
+.btn-primary {
+  background-color: #031d39;
+  border: none;
+  color: white;
+}
+
+.btn-secondary {
+  background-color: #031d39;
+  border: none;
+  color: white;
+}
+
+
+// .btn {
+//   background-color: rgb(2, 2, 62);
+//   border-radius: 5px;
+//   color: white;
+//   font-style: arial;
+// }
+
+
+// .library-show {
+//   margin-top: 25px;
+//   text-align: center;
+// }
+
+// .container-library-show {
+//   align-items: center;
+//   display: flex;
+//   justify-content: space-around;
+
+//   display: flex;
+//   flex-direction: row;
+//   //gap: 5px; // Adds spacing between buttons
+//   padding: 20px;
+
+//   a {
+//     display: block;
+//     justify-content: space-between;
+//     text-align: center;
+//     text-decoration: none;
+//     padding: 10px 20px;
+//     font-size: 16px;
+//     font-weight: bold;
+//     color: #ffffff; // Text color
+//     background-color: #007bff; // Primary blue button color
+//     border-radius: 5px;
+//     transition: background-color 0.3s ease, transform 0.2s ease;
+
+//     &:hover {
+//       background-color: #b34500;
+//       transform: translateY(-2px);
+//     }
+
+//     &:active {
+//       background-color: #003f7f; // Even darker blue on active
+//       transform: translateY(1px); // Slight pressed effect
+//     }
+//   }
+
+
+// }
+
+// .row {
+//   color: red;
+// }

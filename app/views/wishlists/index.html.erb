@@ -1,4 +1,4 @@
-<h1>Your Wishlist for <%= @library.name %></h1>
+<h1 class="display-5 text-center mb-4">Your Wishlist at <span class="text-primary"><%= @library.name %></span></h1>
 
 <% if flash[:notice] %>
   <p class="alert alert-success"><%= flash[:notice] %></p>
@@ -7,19 +7,18 @@
   <p class="alert alert-danger"><%= flash[:alert] %></p>
 <% end %>
 
-
 <% if @wishlists.any? %>
   <table class="table table-bordered">
     <thead>
       <tr>
-        <th>Book</th>
+        <th>Book Title</th>
         <th>Actions</th>
       </tr>
     </thead>
     <tbody>
       <% @wishlists.each do |wishlist| %>
         <tr>
-          <td><%= wishlist.book.title %></td>
+          <td><strong><%= wishlist.book.title %></strong></td>
           <td>
             <%= link_to 'View Details', library_book_path(@library, wishlist.book), class: 'btn btn-info btn-sm' %>
             <%= link_to 'Remove', library_wishlist_path(@library, wishlist), method: :delete,
@@ -32,6 +31,9 @@
     </tbody>
   </table>
 <% else %>
-  <p>Your wishlist is currently empty. Start adding books you like!</p>
+  <p>Your wishlist is currently empty. Start exploring the library and save books you love!</p>
 <% end %>
+
+<div class="text-center mt-4">
 <%= link_to 'Back to Library', user_dashboard_library_path(@library), class: 'btn btn-secondary' %>
+</div>
