@@ -1,43 +1,75 @@
-<h2 class="display-6 text-center mb-4">Edit Book: <span class="text-primary"> <%= @book.title %></span></h2>
+<div class="container-margin">
+  <h1 class="text-center display-6 my-4">Edit Book: <span class="text-primary"><%= @book.title %></span></h1>
 
-<div class="add-book-form">
-  <%= simple_form_for [@library, @book] do |f| %>
-    <div class="form-samerow">
-      <div class="form-field">
-        <%= f.input :title, label: "Book Title" %>
+  <div class="add-book-form">
+    <%= simple_form_for [@library, @book] do |f| %>
+      <!-- Title and Author -->
+      <div class="form-samerow">
+        <div class="form-field">
+          <%= f.input :title, label: "Book Title" %>
+        </div>
+        <div class="form-field">
+          <%= f.input :author, label: "Author" %>
+        </div>
       </div>
-      <div class="form-field">
-        <%= f.input :author, label: "Author" %>
-      </div>
-    </div>
 
-    <div class="form-samerow">
-      <div class="form-field">
-        <%= f.input :genre, label: "Genre" %>
+      <!-- Genre, Year, and Format -->
+      <div class="form-samerow">
+        <div class="form-field">
+          <%= f.input :genre, label: "Genre" %>
+        </div>
+        <div class="form-field">
+          <%= f.input :year, label: "Year of Publication" %>
+        </div>
+        <div class="form-field">
+          <%= f.input :format, collection: [["eBook", "ebook"], ["Hardcover", "hardcover"], ["Research Paper", "researchpaper"]], label: "Format", input_html: { id: "book-format" } %>
+        </div>
       </div>
-      <div class="form-field">
-        <%= f.input :year, label: "Year of Publication" %>
-      </div>
-      <div class="form-field">
-        <%= f.input :format, collection: [["eBook", "ebook"], ["Hardcover", "hardcover"], ["Research Paper", "researchpaper"]], label: "Format" %>
-      </div>
-    </div>
 
-    <div class="form-samerow">
+      <!-- Summary -->
       <div class="form-field">
         <%= f.input :summary, label: "Summary" %>
-      <div>
-      <div class="form-field">
-        <% if @book.format == "hardcover" %>
-        <%= f.input :quantity, label: "Quantity" %>
       </div>
-       <% end %>
-    </div>
 
-   <div class="button-row">
-    <%= f.button :submit, "Update Book", class: 'btn btn-success' %>
-      <%= link_to "Back to Books", library_books_path(@library), class: 'btn btn-secondary' %>
-    </div>
+      <!-- Hardcover-Specific Fields -->
+      <div class="form-field" id="hardcover-fields" style="display: <%= @book.format == 'hardcover' ? 'block' : 'none' %>;">
+        <%= f.input :quantity, label: "Quantity" %>
+        <%= f.input :qr_code, label: "QR Code (auto-generated if blank)", input_html: { placeholder: "Optional" } %>
+      </div>
 
-  <% end %>
+      <!-- eBook-Specific Fields -->
+      <div class="form-field" id="ebook-fields" style="display: <%= @book.format == 'ebook' ? 'block' : 'none' %>;">
+        <%= f.input :pdf, label: "Upload eBook PDF", as: :file %>
+      </div>
+
+      <!-- Photo for All Books -->
+      <div class="form-field">
+        <%= f.input :photo, label: "Upload Book Cover Photo", as: :file %>
+      </div>
+
+      <!-- Submit and Back Buttons -->
+      <div class="button-row">
+        <%= f.button :submit, "Update Book", class: 'btn btn-success' %>
+        <%= link_to "Back to Books", library_books_path(@library), class: 'btn btn-secondary' %>
+      </div>
+    <% end %>
+  </div>
 </div>
+
+<script>
+  // Dynamically show/hide fields based on the selected format
+  document.addEventListener("DOMContentLoaded", function () {
+    const formatSelect = document.getElementById("book-format");
+    const hardcoverFields = document.getElementById("hardcover-fields");
+    const ebookFields = document.getElementById("ebook-fields");
+
+    function toggleFields() {
+      const format = formatSelect.value;
+      hardcoverFields.style.display = format === "hardcover" ? "block" : "none";
+      ebookFields.style.display = format === "ebook" ? "block" : "none";
+    }
+
+    formatSelect.addEventListener("change", toggleFields);
+    toggleFields(); // Initial call to set the fields correctly
+  });
+</script>

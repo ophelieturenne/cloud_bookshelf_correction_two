@@ -1,2 +1,20 @@
 // Import page-specific CSS files here.
 @import "home";
+
+
+.book-placeholder {
+  background-color: #f0f0f0;
+  width: 200px;
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ccc;
+  text-align: center;
+}
+
+.book-placeholder p {
+  color: #333;
+  font-weight: bold;
+  padding: 10px;
+}

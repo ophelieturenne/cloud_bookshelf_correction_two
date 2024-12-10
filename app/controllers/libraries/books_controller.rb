@@ -1,6 +1,6 @@
 class Libraries::BooksController < ApplicationController
   before_action :set_library
-  before_action :set_book, only: %i[show edit update destroy read]
+  before_action :set_book, only: %i[show edit update destroy read qr_code_download redirect_to_library]
 
   def index
     authorize @library, :show?
@@ -49,13 +49,39 @@ class Libraries::BooksController < ApplicationController
 
   def read
     authorize @book
-    if @book.format == "ebook"
-      @content = @book.content # Replace with your actual logic to fetch eBook content
-      render "read"
+    if @book.format == "ebook" && @book.pdf.attached?
+      render 'read', locals: { pdf_url: url_for(@book.pdf) }
     else
       redirect_to library_book_path(@library, @book), alert: "This book is not available for online reading."
     end
   end
+
+  def qr_code_download
+    authorize @book
+
+    send_data(
+      RQRCode::QRCode.new(@book.qr_code).as_png(size: 300),
+      type: 'image/png',
+      filename: "qr_code_#{@book.title.parameterize}.png",
+      disposition: 'attachment'
+    )
+  end
+
+  def redirect_to_library
+    # Authorize the library using Pundit
+    if current_user.libraries.include?(@library)
+      # User is already assigned to the library
+      redirect_to library_path(@library), notice: "Welcome back to the library!"
+    else
+      # Assign user to library
+      LibraryUser.create!(user: current_user, library: @library)
+      redirect_to library_path(@library), notice: "You have been added to this library."
+    end
+  rescue Pundit::NotAuthorizedError
+    # If authorization fails, redirect to a fallback page
+    redirect_to root_path, alert: "You are not authorized to access this library."
+  end
+
 
   private
 
@@ -68,6 +94,14 @@ class Libraries::BooksController < ApplicationController
   end
 
   def book_params
-    params.require(:book).permit(:title, :summary, :author, :genre, :year, :format, :quantity, :qr_code, :status)
+    allowed_params = [:title, :summary, :author, :genre, :year, :format, :status]
+
+    # Add conditional attributes
+    allowed_params << :quantity << :qr_code if params[:book][:format] == "hardcover"
+    allowed_params << :pdf if params[:book][:format] == "ebook"
+    allowed_params << :photo # Photo is common for all formats
+
+    params.require(:book).permit(allowed_params)
   end
+
 end

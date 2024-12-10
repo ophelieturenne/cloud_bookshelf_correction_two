@@ -33,6 +33,15 @@ class BookPolicy < ApplicationPolicy
     library_member? && record.format == "ebook"
   end
 
+  def qr_code_download?
+    Rails.logger.debug "User Libraries: #{user.libraries.inspect}"
+  Rails.logger.debug "Record Library: #{record.library.inspect}"
+  Rails.logger.debug "QR Code Present: #{record.qr_code.present?}"
+  library_member? && record.qr_code.present?
+  end
+
+
+
   private
 
   def library_admin?

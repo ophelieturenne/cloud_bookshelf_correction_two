@@ -65,6 +65,10 @@ Rails.application.routes.draw do
         post :cancel_reservation
         # Route: POST /libraries/:library_id/books/:id/cancel_reservation
         # Handles the logic to cancel a reservation for the specified book.
+
+        get :qr_code_download
+        get :redirect_to_library
+
       end
 
       # Reviews nested within books

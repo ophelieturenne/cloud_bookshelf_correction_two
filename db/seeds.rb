@@ -1,4 +1,5 @@
 require 'faker'
+require 'open-uri'
 
 # Clear old data
 puts "Clearing old data..."
@@ -31,12 +32,10 @@ LibraryUser.create!(user: librarian, library: library_2, is_admin: true)
 puts "Library users assigned: #{LibraryUser.count}"
 
 # Add books to libraries
-puts "Adding books to libraries..."
+puts "Adding books..."
 20.times do
   format = %w[ebook hardcover researchpaper].sample
-  quantity = format == 'hardcover' ? rand(2..5) : 1  # eBooks/researchpapers have no physical quantity
-
-  book = Book.create!(
+  book = Book.new(
     title: Faker::Book.title,
     summary: Faker::Lorem.paragraph,
     author: Faker::Book.author,
@@ -45,9 +44,36 @@ puts "Adding books to libraries..."
     format: format,
     library: library_1,
     user: librarian,
-    quantity:  # Assign only for hardcopies
+    quantity: (format == 'hardcover' ? rand(1..5) : nil),
+    qr_code: (format == 'hardcover' ? SecureRandom.uuid : nil)
   )
-  puts "Book created: #{book.title} (ID: #{book.id}, Quantity: #{book.quantity}, Format: #{book.format})"
+
+  begin
+    # Attach a default photo to the book
+    book.photo.attach(
+      io: File.open(Rails.root.join('app/assets/images/default_book_cover.jpg')),
+      filename: 'default_book_cover.jpg',
+      content_type: 'image/jpeg'
+    )
+  rescue Errno::ENOENT
+    puts "Default book cover file not found! Skipping photo attachment for book: #{book.title}"
+  end
+
+  # Attach a default PDF if the book is an ebook
+  if format == 'ebook'
+    begin
+      book.pdf.attach(
+        io: File.open(Rails.root.join('app/assets/pdfs/sample_ebook.pdf')),
+        filename: 'sample_ebook.pdf',
+        content_type: 'application/pdf'
+      )
+    rescue Errno::ENOENT
+      puts "Sample eBook PDF file not found! Skipping PDF attachment for book: #{book.title}"
+    end
+  end
+
+  book.save!
+  puts "Book created: #{book.title}, Format: #{book.format}"
 
   # Add reviews
   [student_1, student_2].each do |student|
@@ -63,17 +89,17 @@ puts "Books added: #{Book.count}, Reviews added: #{Review.count}, Wishlists crea
 # Create checkouts for hardcopy books
 puts "Creating checkouts..."
 library_1.books.where(format: 'hardcover').each do |book|
-  if book.quantity > 0
-    Checkout.create!(
-      user: student_1,
-      book: book,
-      library: library_1,
-      start_date: Date.today,
-      due_date: Date.today + 7.days,
-      status: 'pending'
-    )
-    puts "Checkout created for book: #{book.title} (Remaining quantity: #{[book.quantity - 1, 0].max})"
-  end
+  next unless book.quantity.positive?
+
+  Checkout.create!(
+    user: student_1,
+    book: book,
+    library: library_1,
+    start_date: Date.today,
+    due_date: Date.today + 7.days,
+    status: 'pending'
+  )
+  puts "Checkout created for book: #{book.title} (Remaining quantity: #{[book.quantity - 1, 0].max})"
 end
 
 puts "Checkouts created: #{Checkout.count}"
