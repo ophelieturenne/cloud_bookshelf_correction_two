@@ -19,24 +19,23 @@
 @import "pages/book_index";
 @import "pages/book_show";
 @import "pages/add-book-form";
-
+@import "pages/dashbaords";
 
 //bootstrap_variables
 @import "config/_bootstrap_variables";
 
 @import "components/tables";
 
-html, body {
-  height: 100%;
+body, html {
   margin: 0;
-
+  padding: 0;
+  height: 100%; /* Full viewport height */
 }
 
 .layout {
   display: flex;
   flex-direction: row;
   height: 100vh; /* Full viewport height */
-  overflow: hidden; /* Prevent scrolling if not needed */
 }
 
 /* Sidebar styling */
@@ -53,4 +52,27 @@ html, body {
   flex: 1; /* Takes the remaining space */
   padding: 20px; /* Add some padding for better readability */
   overflow-y: auto; /* Scrollable content if needed */
+}
+
+#wrapper {
+  display: flex;
+}
+
+#sidebar-wrapper {
+  min-width: 250px;
+  max-width: 250px;
+}
+
+#page-content-wrapper {
+  flex: 1;
+}
+
+.navbar {
+  z-index: 1;
+}
+
+@media (orientation: landscape) {
+  .table {
+    font-size: 1.1rem; /* Slightly increase font size */
+  }
 }

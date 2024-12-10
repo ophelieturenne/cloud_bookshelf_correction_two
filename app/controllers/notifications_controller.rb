@@ -1,12 +1,14 @@
 class NotificationsController < ApplicationController
   before_action :authenticate_user!
   before_action :authorize_admin
+  skip_after_action :verify_authorized, only: [:create] # Skip Pundit's authorization check for `create`
+
 
   def create
     @notification = Notification.new(notification_params.merge(user: current_user))
 
     if @notification.save
-      redirect_to library_admin_dashboard_path(@notification.library), notice: "Notification created successfully."
+      redirect_to admin_dashboard_library_path(@notification.library), notice: "Notification created successfully."
     else
       redirect_back fallback_location: root_path, alert: "Failed to create notification."
     end

@@ -5,11 +5,14 @@ class Libraries::UserDashboardsController < ApplicationController
   def show
     authorize @library, :user_dashboard?
 
-    @books = @library.books
-    @approved_checkouts = current_user.checkouts.approved.includes(:book)
-    @wishlists = @library.wishlists.where(user: current_user)
-    @review = Review.new # Initialize review object for form
-    @notifications = @library.notifications.order(created_at: :desc).limit(10) # Load latest notifications
+    # Paginate each section with its unique parameter
+    @books = @library.books.page(params[:books_page]).per(4)
+    @approved_checkouts = current_user.checkouts.approved.includes(:book).page(params[:checkouts_page]).per(4)
+    @wishlists = @library.wishlists.where(user: current_user).page(params[:wishlists_page]).per(4)
+    @notifications = @library.notifications.order(created_at: :desc).page(params[:notifications_page]).per(4)
+
+    # Initialize review object for the review form
+    @review = Review.new
   end
 
   private

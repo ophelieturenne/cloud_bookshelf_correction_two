@@ -6,76 +6,64 @@ $background-color: #f8f9fa;
 $table-header-color: #343a40;
 $text-color: #212529;
 
-
-// Libraries Table
+// General Table Styles
 .table {
-  width: 50%;
+  width: 100%; // Full width of the container
   border-collapse: collapse;
   margin: 1.5rem 0;
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: $background-color;
+  border-radius: 0.5rem; // Rounded corners for table
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); // Subtle shadow for elevation
 
+  // Header Styling
   thead {
     background-color: $table-header-color;
     color: #fff;
 
     th {
       text-align: left;
-      padding: 1rem;
+      padding: 0.5rem 1rem;
+      white-space: nowrap; // Prevent header text from wrapping
     }
   }
 
+  // Body Styling
   tbody {
     tr {
       &:hover {
-        background-color: rgba($primary-color, 0.1);
+        background-color: rgba($primary-color, 0.05); // Highlight row on hover
       }
 
       td {
-        padding: 1rem;
-        border-bottom: 1px solid #ddd;
+        padding: 0.5rem 1rem;
+        border-bottom: 1px solid #ddd; // Border between rows
+        word-wrap: break-word; // Ensure text wrapping for long content
+        white-space: normal; // Allow text wrapping
 
         &:last-child {
-          text-align: center;
+          text-align: center; // Center-align the last column
         }
       }
     }
   }
 }
 
+// Responsive Table Wrapper
+.table-responsive {
+  max-height: 70vh; // Limit table height
+  overflow-y: auto; // Add vertical scrolling if needed
+}
 
-// Libraries Table
-.table {
-  width: 50%;
-  border-collapse: collapse;
-  margin: 1.5rem 0;
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+// Pagination
+.pagination {
+  justify-content: center; // Center-align pagination
+  margin-top: 1rem;
 
-  thead {
-    background-color: $table-header-color;
-    color: #fff;
-
-    th {
-      text-align: left;
-      padding: 1rem;
-    }
-  }
-
-  tbody {
-    tr {
-      &:hover {
-        background-color: rgba($primary-color, 0.1);
-      }
-
-      td {
-        padding: 1rem;
-        border-bottom: 1px solid #ddd;
-
-        &:last-child {
-          text-align: center;
-        }
-      }
+  .page-link {
+    border-radius: 0.25rem; // Rounded corners for pagination links
+    &:hover {
+      background-color: $primary-color; // Hover color for links
+      color: #fff;
     }
   }
 }

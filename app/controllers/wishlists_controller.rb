@@ -3,7 +3,7 @@ class WishlistsController < ApplicationController
   before_action :authorize_wishlist, only: [:create, :destroy]
 
   def index
-    @wishlists = policy_scope(@library.wishlists).where(user: current_user)
+    @wishlists = policy_scope(@library.wishlists).where(user: current_user).page(params[:wish_page]).per(4) # Paginate
   end
 
   def create

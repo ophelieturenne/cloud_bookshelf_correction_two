@@ -22,6 +22,7 @@ class Book < ApplicationRecord
   validates :photo, attached: true, content_type: ['image/png', 'image/jpg', 'image/jpeg'] # Ensure photo is attached and valid
   validates :pdf, attached: true, if: -> { format == "ebook" }, content_type: ['application/pdf'] # Validate pdf for ebooks
 
+
   # Callbacks
   after_create :generate_qr_code
   before_validation :set_defaults

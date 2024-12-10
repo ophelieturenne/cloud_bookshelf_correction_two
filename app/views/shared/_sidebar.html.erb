@@ -1,65 +1,84 @@
+<!-- Burger Toggle Button -->
+<button class="sidebar-toggle" id="sidebarToggle">
+  <i class="fa-solid fa-bars"></i>
+</button>
+
+<!-- Sidebar -->
 <nav class="sidebar" id="sidebar">
-    <div class="sidebar__container">
+  <div class="sidebar__container">
+    <!-- App Name -->
+    <div class="sidebar__header text-center py-3">
+      <h3>CloudBookshelf</h3>
+    </div>
+
+    <!-- User Information -->
     <div class="sidebar__user">
-        
-
-        <div class="sidebar__info">
-            <h3>User</h3>
-            <span>user@email.com</span>
-        </div>
+      <div class="sidebar__info">
+        <h3>User</h3>
+        <span><%= current_user.email %></span>
+      </div>
     </div>
 
+    <!-- Sidebar Links -->
     <div class="sidebar__content">
-        <div>
-            <h3 class="sidebar__title">MANAGE</h3>
-
-            <div class="sidebar__list">
-                <a href="#" class="sidebar__link active-link">
-                <i class="fa-solid fa-chart-simple"></i>
-                <span>Dashboard</span>
-                </a>
-                
-                <a href="#" class="sidebar__link">
-                <i class="fa-solid fa-book"></i>
-                <span>Books</span>
-                </a>
-
-                <a href="#" class="sidebar__link">
-                <i class="fa-solid fa-user"></i>
-                <span>Profile</span>
-                </a>
-
-            </div>
+      <!-- Manage Section -->
+      <div>
+        <h3 class="sidebar__title">MANAGE</h3>
+        <div class="sidebar__list">
+          <%= link_to root_path, class: "sidebar__link" do %>
+            <i class="fa-solid fa-chart-simple"></i>
+            <span>Dashboard</span>
+          <% end %>
+          <%= link_to root_path, class: "sidebar__link" do %>
+            <i class="fa-solid fa-book"></i>
+            <span>Books</span>
+          <% end %>
+          <%= link_to root_path, class: "sidebar__link" do %>
+            <i class="fa-solid fa-user"></i>
+            <span>Profile</span>
+          <% end %>
         </div>
+      </div>
 
-        <div>
-            <h3 class="sidebar__title">SETTINGS</h3>
-
-            <div class="sidebar__list">
-                <a href="#" class="sidebar__link">
-                <i class="fa-solid fa-gear"></i>
-                <span>Settings</span>
-                </a>
-
-                <a href="#" class="sidebar__link">
-                <i class="fa-solid fa-envelope"></i>
-                <span>Notifications</span>
-                </a>
-            </div>
+      <!-- Settings Section -->
+      <div>
+        <h3 class="sidebar__title">SETTINGS</h3>
+        <div class="sidebar__list">
+          <%= link_to root_path, class: "sidebar__link" do %>
+            <i class="fa-solid fa-gear"></i>
+            <span>Settings</span>
+          <% end %>
+          <%= link_to notifications_path, class: "sidebar__link" do %>
+            <i class="fa-solid fa-envelope"></i>
+            <span>Notifications</span>
+          <% end %>
         </div>
+      </div>
     </div>
 
+    <!-- Sidebar Actions -->
     <div class="sidebar__actions">
-        <button>
-            <i class="ri-moon-clear-fill sidebar__link sidebar__theme" id="theme-button">
-                <span>Theme</span>
-            </i>
-        </button>
-
-        <button class="sidebar__link">
-            <i class="ri-logout-box-r-fill"></i>
-            <span>Log Out</span>
-        </button>
+      <%= link_to destroy_user_session_path, method: :delete, class: "sidebar__link" do %>
+        <i class="ri-logout-box-r-fill"></i>
+        <span>Log Out</span>
+      <% end %>
     </div>
-    </div>
+  </div>
 </nav>
+
+<!-- Sidebar Toggle Script -->
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const sidebar = document.getElementById("sidebar");
+    const sidebarHeader = document.getElementById("sidebar__header");
+    const sidebarTitle = document.getElementById("sidebar__title");
+
+    const toggleButton = document.getElementById("sidebarToggle");
+
+    toggleButton.addEventListener("click", () => {
+      sidebar.classList.toggle("show-sidebar");
+      sidebarHeader.classList.toggle("show-sidebar");
+      sidebarTitle.classList.toggle("show-sidebar");
+    });
+  });
+</script>

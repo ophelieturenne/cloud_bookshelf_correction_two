@@ -9,6 +9,9 @@ class LibrariesController < ApplicationController
     @library = Library.find(params[:id])
     Rails.logger.debug "Current user: #{current_user.inspect}"
     authorize @library
+
+    # Paginate the books for the library
+    @books = @library.books.page(params[:page]).per(8) # Adjust `per` as needed for items per page
   end
 
 

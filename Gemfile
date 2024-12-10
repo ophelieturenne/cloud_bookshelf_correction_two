@@ -19,6 +19,7 @@ gem "importmap-rails"
 
 gem 'rqrcode'
 gem 'rqrcode_png'
+gem 'kaminari'
 gem 'active_storage_validations'
 
 # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
@@ -92,4 +93,3 @@ gem "pundit"
 gem 'faker'
 
 gem 'cocoon'
-

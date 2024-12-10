@@ -1,25 +1,54 @@
 .home_container {
   display: flex;
-  flex-direction: column; /* Stack elements vertically */
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh; /* Full height */
-  //background-color: #f9f9f9; /* Light background for the page */
-  padding: 4rem;
-  color: white;
-
-  background-image: image-url('cloud.jpg');
+  background-image: url('homepage.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  //filter: brightness(1);
+  text-align: center;
+  color: white;
+  padding: 2rem;
 }
-
 
 .hme {
+  font-size: 3rem;
+  font-weight: bold;
   letter-spacing: 5px;
 }
-hme1 {
-  font-size: smaller;
 
- }
+.hme1 {
+  font-size: 1.2rem;
+  margin-top: 1rem;
+}
+
+.table1 {
+  width: 80%;
+  margin: 2rem auto;
+  border: 1px solid white;
+  background-color: rgba(255, 255, 255, 0.8);
+  color: black;
+  border-collapse: collapse;
+}
+
+.table1 th, .table1 td {
+  padding: 1rem;
+  text-align: center;
+  border: 1px solid white;
+}
+
+.btn {
+  margin: 0.5rem;
+}
+
+.mt-3 {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.mt-3 .btn {
+  margin: 0 1rem;
+}

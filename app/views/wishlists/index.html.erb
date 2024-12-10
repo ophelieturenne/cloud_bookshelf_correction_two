@@ -1,39 +1,52 @@
-<h1 class="display-5 text-center mb-4">Your Wishlist at <span class="text-primary"><%= @library.name %></span></h1>
+<div class="container-fluid dashboard py-4">
+  <!-- Flash Messages -->
+  <% if flash[:notice] %>
+    <div class="alert alert-success"><%= flash[:notice] %></div>
+  <% end %>
+  <% if flash[:alert] %>
+    <div class="alert alert-danger"><%= flash[:alert] %></div>
+  <% end %>
 
-<% if flash[:notice] %>
-  <p class="alert alert-success"><%= flash[:notice] %></p>
-<% end %>
-<% if flash[:alert] %>
-  <p class="alert alert-danger"><%= flash[:alert] %></p>
-<% end %>
+  <!-- Back Button -->
+  <%= link_to "Back to Libraries", user_dashboard_library_path(@library), class: 'btn btn-secondary mb-4' %>
 
-<% if @wishlists.any? %>
-  <table class="table table-bordered">
-    <thead>
-      <tr>
-        <th>Book Title</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @wishlists.each do |wishlist| %>
-        <tr>
-          <td><strong><%= wishlist.book.title %></strong></td>
-          <td>
-            <%= link_to 'View Details', library_book_path(@library, wishlist.book), class: 'btn btn-info btn-sm' %>
-            <%= link_to 'Remove', library_wishlist_path(@library, wishlist), method: :delete,
-              data: { turbo_method: 'delete', turbo_confirm: 'Are you sure?' },
-              class: 'btn btn-danger' %>
+  <!-- Wishlist Title -->
+  <h1 class="display-5 text-center mb-4">Your Wishlist at <span class="text-primary"><%= @library.name %></span></h1>
 
-          </td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-<% else %>
-  <p>Your wishlist is currently empty. Start exploring the library and save books you love!</p>
-<% end %>
+  <!-- Wishlist Table -->
+  <% if @wishlists.any? %>
+    <div class="table-responsive">
+      <table class="table table-bordered table-striped text-center">
+        <thead class="table-light">
+          <tr>
+            <th>Book Title</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @wishlists.each do |wishlist| %>
+            <tr>
+              <td><strong><%= wishlist.book.title %></strong></td>
+              <td>
+                <%= link_to 'View Details', library_book_path(@library, wishlist.book), class: 'btn btn-info btn-sm me-2' %>
+                <%= link_to 'Remove', library_wishlist_path(@library, wishlist), method: :delete,
+                  data: { turbo_method: 'delete', turbo_confirm: 'Are you sure?' },
+                  class: 'btn btn-danger btn-sm' %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
 
-<div class="text-center mt-4">
-<%= link_to 'Back to Library', user_dashboard_library_path(@library), class: 'btn btn-secondary' %>
+    <!-- Pagination -->
+    <div class="mt-4">
+      <%= paginate @wishlists %>
+    </div>
+  <% else %>
+    <div class="text-center mt-5">
+      <p class="text-muted">Your wishlist is currently empty. Start exploring the library and save books you love!</p>
+      <%= link_to 'Explore Books', libraries_path, class: 'btn btn-primary mt-3' %>
+    </div>
+  <% end %>
 </div>

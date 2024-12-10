@@ -11,7 +11,7 @@ class Libraries::BooksController < ApplicationController
   def show
     set_library
     authorize @book
-    @reviews = @book.reviews
+    @reviews = @book.reviews.page(params[:reviews_page]).per(4) # Paginate
   end
 
   def new
