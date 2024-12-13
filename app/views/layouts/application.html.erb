@@ -9,7 +9,9 @@
   <body>
     <div class="d-flex" id="wrapper">
       <!-- Sidebar -->
-      <%= render 'shared/sidebar' unless current_page?(root_path) %>
+      <% if user_signed_in? && !(current_page?(root_path) || current_page?(new_user_session_path)) %>
+        <%= render 'shared/sidebar' %>
+      <% end %>
 
       <!-- Page Content -->
       <div id="page-content-wrapper" class="w-100">
